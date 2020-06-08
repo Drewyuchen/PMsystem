@@ -182,6 +182,9 @@
                             <el-table-column type="expand">
                               <template slot-scope="props">
                                 <el-form label-position="left" inline class="demo-table-expand">
+                                  <el-form-item label="Title">
+                                    <span>{{ props.row.title }}</span>
+                                  </el-form-item>
                                   <el-form-item label="Start Time">
                                     <span>{{ props.row.starttime }}</span>
                                   </el-form-item>
@@ -329,6 +332,9 @@
                             <el-table-column type="expand">
                               <template slot-scope="props">
                                 <el-form label-position="left" inline class="demo-table-expand">
+                                  <el-form-item label="Title">
+                                  <span>{{ props.row.title }}</span>
+                                  </el-form-item>
                                   <el-form-item label="Start Time">
                                     <span>{{ props.row.starttime }}</span>
                                   </el-form-item>
@@ -472,10 +478,13 @@
                             <el-table-column type="expand">
                               <template slot-scope="props">
                                 <el-form label-position="left" inline class="demo-table-expand">
+                                  <el-form-item label="Title">
+                                    <span>{{ props.row.title }}</span>
+                                  </el-form-item>
                                   <el-form-item label="Start Time">
                                     <span>{{ props.row.starttime }}</span>
                                   </el-form-item>
-                                  <el-form-item label="Endtime">
+                                  <el-form-item label="End Time">
                                     <span>{{ props.row.endtime }}</span>
                                   </el-form-item>
                                   <el-form-item label="Work Hour">
@@ -674,21 +683,25 @@
           }
         },
         tableData: [{
+          title:'title',
           starttime: '2020/05/10',
           endtime: '2020/05/11',
           workhour: '6',
           description: 'Demo for this Work Hour Description'
         }, {
+          title:'title',
           starttime: '2020/05/07',
           endtime: '2020/05/08',
           workhour: '3',
           description: 'Demo for this Work Hour Description'
         }, {
+          title:'title',
           starttime: '2020/05/03',
           endtime: '2020/05/05',
           workhour: '6',
           description: 'Demo for this Work Hour Description'
         }, {
+          title:'title',
           starttime: '2020/05/01',
           endtime: '2020/05/02',
           workhour: '6',
