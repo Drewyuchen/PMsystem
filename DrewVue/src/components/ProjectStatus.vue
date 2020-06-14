@@ -22,14 +22,26 @@
                 <el-breadcrumb-item :to="{ path: '/index' }">Home</el-breadcrumb-item>
                 <el-breadcrumb-item>Tasks</el-breadcrumb-item>
               </el-breadcrumb>
-              <h2 style="text-align: left; margin-left: 20px"> Project 1 </h2>
-              <h5 style="text-align: left; margin-left: 20px"> Description: Description for Project 1 </h5>
+              <h2 style="text-align: left; margin-left: 20px">{{projectinfo.name}}</h2>
+              <h5 style="text-align: left; margin-left: 20px"> Description: {{projectinfo.description}} </h5>
               <div class="ADDParticipants">
-                <el-button type="text" @click="open">
+                <el-dialog
+                width="60%"
+                :visible.sync="UsersdialogVisible"
+                title="加入成员">
+                  <el-select placeholder="请选择活动区域" @change="getUserId">
+                    <el-option v-for="user in allusers" :key="user.id" label="user.name" value="user.id"></el-option>
+                  </el-select>
+                   <div slot="footer" class="dialog-footer">
+                    <el-button @click="UsersdialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="addUsertoProject();dialogFormVisible=false;getUsersByProject()">确 定</el-button>
+                  </div>
+                </el-dialog>
+                <el-button type="text" @click="UsersdialogVisible=true;open()">
                   <i class="el-icon-circle-plus" style="font-size: 45px"></i>
                 </el-button>
-                <el-link href="Profile">
-                  <el-avatar icon="el-icon-user-solid"></el-avatar>
+                <el-link href="Profile" v-for="member in usersInProject" :key="member">
+                  <el-avatar :src="member.avatar" icon="el-icon-user-solid"></el-avatar>
                 </el-link>
               </div>
             </div>
@@ -46,7 +58,7 @@
                   <div class="dialogHeader" style="margin-top:-5px;margin-bottom: 10px">
                     <h5 style="text-align: center">Create A Task(require)</h5>
                     <div class="inPutTexting">
-                      <el-input v-model="input" placeholder=" Create A Task Title "
+                      <el-input v-model="title" placeholder=" Create A Task Title "
                                 style="text-align: left;width: 100%;height:50%;margin-bottom: 10px"></el-input>
                     </div>
                   </div>
@@ -63,8 +75,10 @@
                         <div class="block">
                           <span class="demonstration"></span>
                           <el-date-picker
-                            v-model="value1"
+                            v-model="duedate"
                             type="date"
+                            value-format="yyyy-MM-dd hh:mm:ss"
+                            format="yyyy-MM-dd hh:mm:ss"
                             placeholder="Choose A Date"
                             style="width: 80%">
                           </el-date-picker>
@@ -87,11 +101,11 @@
                     </div>
                   </div>
                   <div class="TaskDescription">
-                    <el-input v-model="input" placeholder=" Task Description "
+                    <el-input v-model="description" placeholder=" Task Description "
                               style="text-align: left;width: 100%;height:50%;margin-top: 10px"></el-input>
                   </div>
                   <span slot="footer" class="dialog-footer">
-                    <el-button type="primary" @click="dialogVisible2 = false" style="margin-top: 15px">OK</el-button>
+                    <el-button type="primary" @click="createTask();dialogVisible2 = false;getTaskList()" style="margin-top: 15px">OK</el-button>
                   </span>
                 </el-dialog>
               </div>
@@ -101,13 +115,13 @@
                 DoneJob>>
               </h6>
               <el-row>
-                <el-card class="box-card":span="4" v-for="project in Doneprojects" :key="project.pid" style="float: left">
+                <el-card class="box-card" :span="4" v-for="task in Donetasks" :key="task.id" style="float: left">
                   <div slot="header" class="clearfix">
                     <span>
                       <el-link style="margin-top: -15px">
-                        <el-button type="text" @click="dialogVisible=true" style="color: green">{{project.pid}}</el-button>
+                        <el-button type="text" @click="dialogVisible=true" style="color: green">{{task.name}}</el-button>
                       </el-link>
-                      <p class="text item" style="float:left;margin-top:-5px">{{project.descript}}</p>
+                      <p class="text item" style="margin-top:-5px">{{task.notes}}</p>
                     </span>
                     <div class="PartiCipants" style="margin-top: -10px">
                       <el-link href="Profile">
@@ -247,13 +261,13 @@
                 InProgress>>
               </h6>
               <el-row>
-                <el-card class="box-card":span="4" v-for="project in InProgressprojects" :key="project.pid" style="float: left">
+                <el-card class="box-card" :span="4" v-for="task in InProgresstasks" :key="task.id" style="float: left">
                   <div slot="header" class="clearfix">
                     <span>
                       <el-link style="margin-top: -15px">
-                        <el-button type="text" @click="dialogVisible=true" style="color: darkorange">{{project.pid}}</el-button>
+                        <el-button type="text" @click="dialogVisible=true" style="color: darkorange">{{task.name}}</el-button>
                       </el-link>
-                      <p class="text item" style="float:left;margin-top:-5px">{{project.descript}}</p>
+                      <p class="text item" style="margin-top:-5px">{{task.notes}}</p>
                     </span>
                     <div class="PartiCipants" style="margin-top: -10px">
                       <el-link href="Profile">
@@ -398,13 +412,13 @@
                 ToDo>>
               </h6>
               <el-row>
-                <el-card class="box-card":span="4" v-for="project in ToDoprojects" :key="project.pid" style="float: left">
+                <el-card class="box-card" :span="4" v-for="task in ToDotasks" :key="task.id" style="float: left">
                   <div slot="header" class="clearfix">
                     <span>
                       <el-link style="margin-top: -15px">
-                        <el-button type="text" @click="dialogVisible=true" style="color: red">{{project.pid}}</el-button>
+                        <el-button type="text" @click="dialogVisible=true" style="color: red">{{task.name}}</el-button>
                       </el-link>
-                      <p class="text item" style="float:left;margin-top:-5px">{{project.descript}}</p>
+                      <p class="text item" style="margin-top:-5px">{{task.notes}}</p>
                     </span>
                     <div class="PartiCipants" style="margin-top: -10px">
                       <el-link href="Profile">
@@ -551,132 +565,26 @@
 </template>
 
 <script>
+import {getProjectById,getTaskList,createTask,getAllUsers,getUsersByProject} from '@/api/project'
   export default {
     name: "ProjectStatus",
     data() {
       return {
-        input: '',
-        value1: '',
         value2: '',
         value3:'',
         value4:'',
+        currentSelectUserId:-1,
+        UsersdialogVisible:false,
+        title:'',
+        duedate:'',
+        description:'',
         activeName: 'first',
-        Doneprojects: [
-          {
-            "pid": "Work Job 1",
-            "descript": "This projects is for demo purposeO1"
-          },
-          {
-            "pid": "Work Job 2",
-            "descript": "This projects is for demo purposeO2"
-          },
-          {
-            "pid": "Work Job 3",
-            "descript": "This projects is for demo purposeO3"
-          },
-          {
-            "pid": "Work Job 4",
-            "descript": "This projects is for demo purposeO4"
-          }
-        ],
-        InProgressprojects: [
-          {
-            "pid": "Work Job 1",
-            "descript": "This projects is for demo purposeO1"
-          },
-          {
-            "pid": "Work Job 2",
-            "descript": "This projects is for demo purposeO2"
-          },
-          {
-            "pid": "Work Job 3",
-            "descript": "This projects is for demo purposeO3"
-          },
-          {
-            "pid": "Work Job 4",
-            "descript": "This projects is for demo purposeO4"
-          },
-          {
-            "pid": "Work Job 5",
-            "descript": "This projects is for demo purposeO4"
-          }
-        ],
-        ToDoprojects: [
-          {
-            "pid": "Work Job 1",
-            "descript": "This projects is for demo purposeO1"
-          },
-          {
-            "pid": "Work Job 2",
-            "descript": "This projects is for demo purposeO2"
-          },
-          {
-            "pid": "Work Job 3",
-            "descript": "This projects is for demo purposeO3"
-          },
-          {
-            "pid": "Work Job 4",
-            "descript": "This projects is for demo purposeO4"
-          },
-          {
-            "pid": "Work Job 5",
-            "descript": "This projects is for demo purposeO5"
-          },
-          {
-            "pid": "Work Job 6",
-            "descript": "This projects is for demo purposeO6"
-          },
-          {
-            "pid": "Work Job 7",
-            "descript": "This projects is for demo purposeO7"
-          },
-          {
-            "pid": "Work Job 8",
-            "descript": "This projects is for demo purposeO8"
-          },
-          {
-            "pid": "Work Job 9",
-            "descript": "This projects is for demo purposeO9"
-          }
-        ],
-        ToDoprojects: [
-          {
-            "pid": "Work Job 1",
-            "descript": "This projects is for demo purposeO1"
-          },
-          {
-            "pid": "Work Job 2",
-            "descript": "This projects is for demo purposeO2"
-          },
-          {
-            "pid": "Work Job 3",
-            "descript": "This projects is for demo purposeO3"
-          },
-          {
-            "pid": "Work Job 4",
-            "descript": "This projects is for demo purposeO4"
-          },
-          {
-            "pid": "Work Job 5",
-            "descript": "This projects is for demo purposeO5"
-          },
-          {
-            "pid": "Work Job 6",
-            "descript": "This projects is for demo purposeO6"
-          },
-          {
-            "pid": "Work Job 7",
-            "descript": "This projects is for demo purposeO7"
-          },
-          {
-            "pid": "Work Job 8",
-            "descript": "This projects is for demo purposeO8"
-          },
-          {
-            "pid": "Work Job 9",
-            "descript": "This projects is for demo purposeO9"
-          }
-        ],
+        projectinfo:{},
+        Donetasks: [],
+        InProgresstasks: [],
+        ToDotasks: [],
+        allusers:[],
+        usersInProject:[],
         methods: {
           handleClick(tab, event) {
             console.log(tab, event);
@@ -734,6 +642,97 @@
           },
         }
       }
+    },
+    created(){
+      this.getAllUsers()
+      this.getProjectById()
+      this.getTaskList()
+      this.getUsersByProject()
+    },
+    methods:{
+      getAllUsers(){
+        return new Promise((resolve,reject)=>{
+          getAllUsers().then((res)=>{
+            this.allusers=res
+            resolve()
+          }).catch((err)=>{
+            console.log(err)
+          })
+        })
+      },
+      getUsersByProject(){
+        return new Promise((resolve,reject)=>{
+          getUsersByProject(this.$route.params.projectid).then((res)=>{
+            this.usersInProject=res.list
+            resolve()
+          }).catch((err)=>{
+            console.log(err)
+          })
+        })
+      },
+      getUserId(val){
+        this.currentSelectUserId=val
+      },
+      addUsertoProject(){
+        return new Promise((resolve,reject)=>{
+          addUsertoProject({
+            gmtCreate: "2020-06-14 11:28:22",
+            gmtModified: "2020-06-14 11:28:22",
+            projectId:this.$route.params.projectid,
+            teamId: 0,
+            userId: this.currentSelectUserId
+          }).then((res)=>{
+            resolve()
+          }).catch((err)=>{
+            console.log(err)
+          })
+        })
+      },
+      getProjectById(){
+        return new Promise((resolve,reject)=>{
+          getProjectById(this.$route.params.projectid).then((res)=>{
+            this.projectinfo=res.data.project
+            resolve()
+          }).catch((err)=>{
+            console.log(err)
+          })
+        })
+      },
+      getTaskList(){
+        return new Promise((resolve,reject)=>{
+          getTaskList().then((res)=>{
+            this.Donetasks=res.data.map.completed
+            this.InProgresstasks=res.data.map.inprogress
+            this.ToDotasks=res.data.map.todo
+            resolve()
+          }).catch((err)=>{
+            console.log(err)
+          })
+        })
+      },
+      createTask(){
+        return new Promise((resolve,reject)=>{
+          createTask({archived: true,
+              assignedTo: 1,
+              completed: true,
+              createdBy: 3,
+              cycleId: 0,
+              dueOn: this.duedate,
+              gmtCreate: "2020-06-14 02:03:09",
+              gmtModified: "2020-06-14 02:03:09",
+              name: this.title,
+              notes: this.description,
+              parentId: 0,
+              relatedTo: "string",
+              statusId: 0,
+              taskableId: 0,
+              taskableType: "string"}).then((res)=>{
+            resolve()
+          }).catch((err)=>{
+            console.log(err)
+          })
+        })
+      },
     }
   }
 </script>

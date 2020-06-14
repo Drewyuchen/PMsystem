@@ -30,20 +30,15 @@
                 <el-card class="box-card" :span="4" v-for="project in allprojects" :key="project.pid">
                   <div slot="header" class="clearfix">
                     <span>
-                      <el-link href="ProjectStatus" style="float: left; padding: 3px 0;margin-bottom: -5px">
-                      <el-button  type="text" style="font-size: large"> {{project.pid}} </el-button>
-                      </el-link>
-                      <p class="text item" style="float:left;text-align: left;font-size: large ">{{project.descript}}</p>
+                      <router-link :to="'/'+project.id" style="padding: 3px 0;margin-bottom: -5px">
+                      <el-button  type="text" style="font-size: large"> {{project.name}} </el-button>
+                      </router-link>
+                      <router-view />
+                      <p class="text item" style="text-align: left;font-size: large ">{{project.description}}</p>
                     </span>
                     <div class="PartiCipants" >
-                      <el-link href="Profile">
-                        <el-avatar icon="el-icon-user-solid" style="vertical-align: middle" href=Profile></el-avatar>
-                      </el-link>
-                      <el-link href="Profile">
-                        <el-avatar icon="el-icon-user-solid" style="vertical-align: middle;margin-left: 5px" href=Profile></el-avatar>
-                      </el-link>
-                      <el-link href="Profile">
-                        <el-avatar icon="el-icon-user-solid" style="vertical-align: middle;margin-left: 5px" href=Profile></el-avatar>
+                      <el-link href="Profile" v-for="member in project.members" :key="member">
+                        <el-avatar :src="member.avatar" style="vertical-align: middle" href=Profile></el-avatar>
                       </el-link>
                     </div>
                   </div>
@@ -60,46 +55,29 @@
 </template>
 
 <script>
+import {getAllProject} from '@/api/project'
   export default {
     name: "test",
     data(){
       return {
         activeName: 'first',
 
-        allprojects:[
-          {
-            "pid":"Project 1",
-            "descript":"This projects is for demo purposeO1"
-          },
-          {
-            "pid":"Project 2",
-            "descript":"This projects is for demo purposeO2"
-          },
-          {
-            "pid":"Project 3",
-            "descript":"This projects is for demo purposeO3"
-          },
-          {
-            "pid":"Project 4",
-            "descript":"This projects is for demo purposeO4"
-          },
-          {
-            "pid":"Project 5",
-            "descript":"This projects is for demo purposeO5"
-          },
-          {
-            "pid":"Project 6",
-            "descript":"This projects is for demo purposeO6"
-          },
-          {
-            "pid":"Project 7",
-            "descript":"This projects is for demo purposeO7"
-          },
-          {
-            "pid":"Project 8",
-            "descript":"This projects is for demo purposeO8"
-          },
-        ]
+        allprojects:[]
+      }
+    },
+    created(){
+      this.getAllProject()
+    },
+    methods:{
+      getAllProject(){
+        return new Promise((resolve,reject)=>{
+          getAllProject().then((res)=>{
+            this.allprojects=res.data.list
+            resolve()
+          }).catch((err)=>{
+            console.log(err)
+          })
+        })
       }
     }
   }
