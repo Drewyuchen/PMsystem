@@ -39,7 +39,7 @@ export function createTask(data){
 
 export function getAllUsers(){
     return request({
-        url:'http://localhost:8065/ucenter/users/getAllUsers',
+        url:'http://localhost:8086/ucenter/users/getAllUsers2',
         method:'get',
     })
 }

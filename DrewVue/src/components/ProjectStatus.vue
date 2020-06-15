@@ -29,12 +29,12 @@
                 width="60%"
                 :visible.sync="UsersdialogVisible"
                 title="加入成员">
-                  <el-select placeholder="请选择活动区域" @change="getUserId">
-                    <el-option v-for="user in allusers" :key="user.id" label="user.name" value="user.id"></el-option>
+                  <el-select placeholder="请选择成员" v-model="currentSelectValue" @change="getUserId">
+                    <el-option v-for="user in allusers" :key="user.id" :label="user.name" :value="user.id"></el-option>
                   </el-select>
                    <div slot="footer" class="dialog-footer">
-                    <el-button @click="UsersdialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="addUsertoProject();dialogFormVisible=false;getUsersByProject()">确 定</el-button>
+                    <el-button @click.stop.prevent="UsersdialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click.stop.prevent="addUsertoProject();UsersdialogVisible=false;getUsersByProject()">确 定</el-button>
                   </div>
                 </el-dialog>
                 <el-button type="text" @click="UsersdialogVisible=true;open()">
@@ -565,7 +565,7 @@
 </template>
 
 <script>
-import {getProjectById,getTaskList,createTask,getAllUsers,getUsersByProject} from '@/api/project'
+import {getProjectById,getTaskList,createTask,getAllUsers,getUsersByProject,addUsertoProject} from '@/api/project'
   export default {
     name: "ProjectStatus",
     data() {
@@ -574,6 +574,7 @@ import {getProjectById,getTaskList,createTask,getAllUsers,getUsersByProject} fro
         value3:'',
         value4:'',
         currentSelectUserId:-1,
+        currentSelectValue:'',
         UsersdialogVisible:false,
         title:'',
         duedate:'',
@@ -653,7 +654,8 @@ import {getProjectById,getTaskList,createTask,getAllUsers,getUsersByProject} fro
       getAllUsers(){
         return new Promise((resolve,reject)=>{
           getAllUsers().then((res)=>{
-            this.allusers=res
+            console.log(res)
+            this.allusers=res.data.list
             resolve()
           }).catch((err)=>{
             console.log(err)
@@ -663,7 +665,8 @@ import {getProjectById,getTaskList,createTask,getAllUsers,getUsersByProject} fro
       getUsersByProject(){
         return new Promise((resolve,reject)=>{
           getUsersByProject(this.$route.params.projectid).then((res)=>{
-            this.usersInProject=res.list
+            this.usersInProject=res.data.list
+            console.log(this.usersInProject)
             resolve()
           }).catch((err)=>{
             console.log(err)
