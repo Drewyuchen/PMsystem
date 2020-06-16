@@ -1,54 +1,39 @@
 <template>
   <el-container>
-    <el-header style="width: 100%;background-color:#F3F3F3; vertical-align: middle" >
-      <div class="HeaderNotification" style=" width: 100%" >
-        <el-link href="index" style="float: left;margin-top: 10px">
-          <img src="../assets/hh.png" >
-        </el-link>
-        <div class="Notification" style="margin-top: 10px;float: right">
-          <el-button plain circle icon="custom-icon el-icon-message-solid" style="margin-right:-10px"></el-button>
-          <el-button plain circle icon="custom-icon el-icon-message" style="margin-right:-10px"></el-button>
-          <el-button plain circle icon="custom-icon el-icon-user-solid"></el-button>
-        </div>
-      </div>
-    </el-header>
     <el-main>
-      <!--Tabs-->
       <div class="HeaderTabs" style="width: 100%">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="Tasks" name="first">
             <div class="TasksHeader">
               <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 20px;padding: 10px 10px 10px 0px">
-                <el-breadcrumb-item :to="{ path: '/index' }">Home</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/project' }">Project</el-breadcrumb-item>
                 <el-breadcrumb-item>Tasks</el-breadcrumb-item>
               </el-breadcrumb>
               <h2 style="text-align: left; margin-left: 20px">{{projectinfo.name}}</h2>
               <h5 style="text-align: left; margin-left: 20px"> Description: {{projectinfo.description}} </h5>
               <div class="ADDParticipants">
                 <el-dialog
-                width="60%"
+                width="30%"
                 :visible.sync="UsersdialogVisible"
                 title="加入成员">
-                  <el-select placeholder="请选择成员" v-model="currentSelectValue" @change="getUserId">
-                    <el-option v-for="user in allusers" :key="user.id" :label="user.name" :value="user.id"></el-option>
-                  </el-select>
+                  <center>
+                    <el-select placeholder="请选择成员" v-model="currentSelectValue" @change="getUserId" style="width:80%">
+                      <el-option v-for="user in allusers" :key="user.id" :label="user.name" :value="user.id"></el-option>
+                    </el-select>
+                  </center>
                    <div slot="footer" class="dialog-footer">
                     <el-button @click.stop.prevent="UsersdialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click.stop.prevent="addUsertoProject();UsersdialogVisible=false;getUsersByProject()">确 定</el-button>
+                    <el-button type="primary" @click.stop.prevent="addUsertoProject();UsersdialogVisible=false;">确 定</el-button>
                   </div>
                 </el-dialog>
                 <el-button type="text" @click="UsersdialogVisible=true;open()">
                   <i class="el-icon-circle-plus" style="font-size: 45px"></i>
                 </el-button>
-                <el-link href="Profile" v-for="member in usersInProject" :key="member">
+                <el-link href="Profile" v-for="member in usersInProject" :key="member.id">
                   <el-avatar :src="member.avatar" icon="el-icon-user-solid"></el-avatar>
                 </el-link>
               </div>
             </div>
             <div class="CreateTask">
-              <el-link>
                 <el-button type="primary" @click="dialogVisible2=true">CreateTask</el-button>
-              </el-link>
               <!--createTasks專案細節對話框-->
               <div class="ProjectDialog">
                 <el-dialog
@@ -550,15 +535,6 @@
                 </el-dialog>
               </div>
             </div>
-          </el-tab-pane>
-
-
-
-          <!--Discussions-->
-          <el-tab-pane label="Discussions" name="second">
-            <h2>Coming Soon</h2>
-          </el-tab-pane>
-        </el-tabs>
       </div>
     </el-main>
   </el-container>
@@ -567,7 +543,7 @@
 <script>
 import {getProjectById,getTaskList,createTask,getAllUsers,getUsersByProject,addUsertoProject} from '@/api/project'
   export default {
-    name: "ProjectStatus",
+    name: "Task",
     data() {
       return {
         value2: '',
@@ -665,7 +641,7 @@ import {getProjectById,getTaskList,createTask,getAllUsers,getUsersByProject,addU
       getUsersByProject(){
         return new Promise((resolve,reject)=>{
           getUsersByProject(this.$route.params.projectid).then((res)=>{
-            this.usersInProject=res.data.list
+              this.usersInProject=res.data.list
             console.log(this.usersInProject)
             resolve()
           }).catch((err)=>{
@@ -685,6 +661,7 @@ import {getProjectById,getTaskList,createTask,getAllUsers,getUsersByProject,addU
             teamId: 0,
             userId: this.currentSelectUserId
           }).then((res)=>{
+            this.getUsersByProject()
             resolve()
           }).catch((err)=>{
             console.log(err)

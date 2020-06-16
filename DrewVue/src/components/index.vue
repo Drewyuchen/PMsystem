@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <el-container>
     <el-header style="width: 100%;background-color:#F3F3F3; vertical-align: middle" >
       <div class="HeaderNotification" style=" width: 100%" >
         <el-link href="index" style="float: left;margin-top: 10px">
@@ -13,44 +13,15 @@
       </div>
     </el-header>
     <el-main>
-      <div class="HeaderTabs" style="width: 100%">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="Home" name="first">
-            <div class="text-xl">
-              {{ 'What\'s on your plate today' }} ⬇️ </div>
-            <div>{{ 'There is currently no work "In Progress" assigned to you' }}</div>
-          </el-tab-pane>
-          <el-tab-pane label="Project" name="second" >
-            <div class="Tab2Header">
-              <h2> All Projects List </h2>
-            </div>
-            <el-divider></el-divider>
-            <div>
-              <el-row>
-                <el-card class="box-card" :span="4" v-for="project in allprojects" :key="project.pid">
-                  <div slot="header" class="clearfix">
-                    <span>
-                      <router-link :to="'/'+project.id" style="padding: 3px 0;margin-bottom: -5px">
-                      <el-button  type="text" style="font-size: large"> {{project.name}} </el-button>
-                      </router-link>
-                      <router-view />
-                      <p class="text item" style="text-align: left;font-size: large ">{{project.description}}</p>
-                    </span>
-                    <div class="PartiCipants" >
-                      <el-link href="Profile" v-for="member in project.members" :key="member">
-                        <el-avatar :src="member.avatar" style="vertical-align: middle" href=Profile></el-avatar>
-                      </el-link>
-                    </div>
-                  </div>
-                </el-card>
-              </el-row>
-
-            </div>
-          </el-tab-pane>
-        </el-tabs>
+      <div style="width: 100%">
+        <el-menu :default-active="$route.path" mode="horizontal" @select="handleSelect" router>
+          <el-menu-item index="/home">Home</el-menu-item>
+          <el-menu-item index="/project">Project</el-menu-item>
+        </el-menu>
+        <router-view />
       </div>
     </el-main>
-  </div>
+  </el-container>
 
 </template>
 
@@ -60,25 +31,14 @@ import {getAllProject} from '@/api/project'
     name: "test",
     data(){
       return {
-        activeName: 'first',
-
-        allprojects:[]
       }
     },
     created(){
-      this.getAllProject()
     },
     methods:{
-      getAllProject(){
-        return new Promise((resolve,reject)=>{
-          getAllProject().then((res)=>{
-            this.allprojects=res.data.list
-            resolve()
-          }).catch((err)=>{
-            console.log(err)
-          })
-        })
-      }
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath)
+      },
     }
   }
 </script>
@@ -90,26 +50,4 @@ import {getAllProject} from '@/api/project'
   .el-tab{font-size: large}
   .el-tab-pane{font-size: large;}
   .el-card{margin: 10px 5px 5px 5px }
-  .PartiCipants{margin-top: 5px;float: left;display: flex; justify-content:flex-start}
-  .text {
-    font-size: 14px;
-  }
-
-  .item {
-    margin-bottom: 18px;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both
-  }
-
-  .box-card {
-    width: 300px;
-    height: 200px;
-  }
 </style>
