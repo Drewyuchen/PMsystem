@@ -62,3 +62,58 @@ export function getUsersByProject(data){
         data
     })
 }
+
+export function getUsersNotInProject(data){
+    return request({
+        url:'http://localhost:8065/project/user/getUsersNotInProject',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        method:'post',
+        data
+    })
+}
+
+export function getStepsByTask(data){
+    return request({
+        url:'http://localhost:8065/project/steps/getSteps',
+        method:'post',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+export function insertToSteps(data){
+    return request({
+        url:'http://localhost:8065/project/steps/insertToSteps',
+        method:'post',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+export function getStepTimeByStep(data){
+    return request({
+        url:'http://localhost:8065/project/step-time/getStepTimeByStep',
+        method:'post',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+export function insertToStepTime(data){
+    return request({
+        url:'http://localhost:8065/project/step-time/insertToStepTime',
+        method:'post',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}

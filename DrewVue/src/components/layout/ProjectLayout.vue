@@ -7,7 +7,7 @@
     </el-header>
     <el-main>
       <div style="width: 100%">
-        <el-menu :default-active="$route.path" mode="horizontal" @select="handleSelect" router>
+        <el-menu :default-active="$route.path" mode="horizontal" router>
           <el-menu-item :index="'/'+$route.params.projectid+'/task'">Task</el-menu-item>
           <el-menu-item :index="'/'+$route.params.projectid+'/discussion'">Discussion</el-menu-item>
         </el-menu>

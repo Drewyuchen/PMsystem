@@ -6,7 +6,6 @@ import Profile from "../components/Profile"
 import Project from "@/components/Project"
 import Task from "../components/Task"
 import Discussion from "../components/Discussion"
-import test from "../components/test"
 
 
 Vue.use(Router)
@@ -47,11 +46,6 @@ export default new Router({
         name: 'discussion',
         component:Discussion
       }]
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component:test
     }
   ]
 })
