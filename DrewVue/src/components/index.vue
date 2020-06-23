@@ -28,7 +28,7 @@
 <script>
 import {getAllProject} from '@/api/project'
   export default {
-    name: "test",
+    name: "Index",
     data(){
       return {
       }

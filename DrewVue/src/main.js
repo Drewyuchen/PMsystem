@@ -8,9 +8,10 @@ import 'element-ui/lib/theme-chalk/index.css';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
-import Vuex from 'vuex';
+import store from './store'
+import './icons'
+import './styles/index.scss'
 
-Vue.use(Vuex)
 Vue.use(BootstrapVue)
 Vue.use(ElementUI);
 Vue.config.productionTip = false
@@ -19,6 +20,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

@@ -61,7 +61,7 @@
                       v-model="taskForm.duedate"
                       type="date"
                       value-format="yyyy-MM-dd hh:mm:ss"
-                      format="yyyy-MM-dd hh:mm:ss"
+                      format="yyyy-MM-dd"
                       placeholder="Choose A Date"
                       style="width: 80%">
                     </el-date-picker>
@@ -264,16 +264,17 @@
                       <el-input type="textarea" v-model="steptimeForm.description" placeholder="Please enter step description" maxlength="70" show-word-limit></el-input>
                     </el-form-item>
                     <el-form-item prop="stepdate" label="Time">
-                      <el-date-picker
+                      <el-time-picker
+                        is-range
                         v-model="steptimeForm.stepdate"
-                        type="daterange"
                         value-format="yyyy-MM-dd hh:mm:ss"
-                        format="yyyy-MM-dd hh:mm:ss"
-                        placeholder="Choose A Date"
+                        format="hh:mm:ss"
+                        type="daterange"
+                        placeholder="Choose A time"
                         range-separator="-"
                         start-placeholder="Start"
                         end-placeholder="End">
-                      </el-date-picker>
+                      </el-time-picker>
                     </el-form-item>
                     <el-form-item>
                       <el-button type="primary" @click="insertToStepTime(currentStepId)">OK</el-button>
@@ -293,6 +294,7 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
   export default {
     name: "Task",
     data() {
+      var date=new Date()
       return {
         value3:'',
         currentSelectUserId:'',
@@ -321,7 +323,7 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
         steptimeForm:{
           title:'',
           description:'',
-          stepdate:[],
+          stepdate:[new Date(date.getFullYear(), date.getMonth(), date.getDate(), 8, 40), new Date(date.getFullYear(), date.getMonth(), date.getDate(), 9, 40)],
         },
         steptimeFormRules:{
           title:[{required: true, message: 'Please input a steptime title', trigger: 'blur' }],
@@ -503,6 +505,7 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
       insertToStepTime(id){
         this.$refs.steptimeForm.validate((valid)=>{
           if(valid){
+            console.log(this.steptimeForm.stepdate[0])
             return new Promise((resolve,reject)=>{
               insertToStepTime({
                 description: this.steptimeForm.description,

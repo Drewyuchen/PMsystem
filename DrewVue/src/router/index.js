@@ -6,12 +6,26 @@ import Profile from "../components/Profile"
 import Project from "@/components/Project"
 import Task from "../components/Task"
 import Discussion from "../components/Discussion"
-
+import Login from '@/components/member/Login'
+import Register from '@/components/member/Register'
 
 Vue.use(Router)
 export default new Router({
   mode:'history',
   routes: [
+    {
+      path: '/member',
+      component: () => import('@/components/layout/IndexLayout'),
+      children:[{
+        path:"login",
+        name:'login',
+        component:Login,
+      },{
+        path:"register",
+        name:'register',
+        component:Register,
+      }]
+    },
     {
       path: '/',
       name: 'index',
