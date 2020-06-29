@@ -8,6 +8,9 @@ import Task from "../components/Task"
 import Discussion from "../components/Discussion"
 import Login from '@/components/member/Login'
 import Register from '@/components/member/Register'
+import Report from '@/components/report'
+import ReportDetail from "../components/ReportDetail";
+
 
 Vue.use(Router)
 export default new Router({
@@ -46,6 +49,16 @@ export default new Router({
       path: '/profile',
       name: 'profile',
       component:Profile
+    },
+    {
+      path: '/report',
+      name: 'report',
+      component:Report
+    },
+    {
+      path: '/reportdetail',
+      name: 'reportdetail',
+      component:ReportDetail
     },
     {
       path: '/:projectid',

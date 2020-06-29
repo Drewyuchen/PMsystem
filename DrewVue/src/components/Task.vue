@@ -69,7 +69,7 @@
                 </el-col>
                 <el-col :span="6">
                   <el-form-item prop="currentTask" label="Relate To">
-                    
+
                     <el-select placeholder="Select a task" v-model="taskForm.currentTask" @change="getTaskId" style="width:80%">
                       <el-option v-for="task in allTasks.todo" :key="task.id" :label="task.name" :value="task.id"></el-option>
                     </el-select>
@@ -84,7 +84,7 @@
                 <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="taskForm.description" placeholder=" Task Description" maxlength="30" show-word-limit></el-input>
               </el-form-item>
             </el-form-item>
-          </el-form>              
+          </el-form>
           <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="createTask();getTaskList()" style="margin-top: 15px">OK</el-button>
           </span>
@@ -209,7 +209,7 @@
             </div>
           </div>
         </el-dialog>
-        <el-dialog 
+        <el-dialog
           :visible.sync="StepDialogVisible"
           append-to-body
           width="60%"
@@ -569,7 +569,7 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
   .box-card {
     width: 95%;
     height: 130px;
-    margin-bottom:20px 
+    margin-bottom:20px
   }
   .el-dropdown-link {
     cursor: pointer;
