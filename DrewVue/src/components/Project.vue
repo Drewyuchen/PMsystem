@@ -4,7 +4,38 @@
             <h2 style="margin-top:20px"> All Projects List </h2>
         </div>
         <el-divider></el-divider>
-        <div>
+      <div class="CreateProject">
+        <el-button type="primary" @click="ProjectVisible = true">CreateProject</el-button>
+        <el-dialog
+          title="About Project Information"
+          :visible.sync="ProjectVisible"
+          width="60%"
+          :before-close="handleClose">
+          <el-form ref="form" :model="form" label-width="150px">
+            <el-form-item label="Project Name">
+              <el-input v-model="form.Projectname"placeholder="Please Enter A Project Name"></el-input>
+            </el-form-item>
+            <el-form-item label="Project Description">
+              <el-input v-model="form.ProjectDesc" placeholder="Please Enter A Project Description"></el-input>
+            </el-form-item>
+            <el-form-item label="Project Right">
+            <div class="block">
+              <el-slider
+                v-model="ProjectRightvalue"
+                show-input input-size="large" style="margin-left: 5px">
+              </el-slider>
+            </div>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+    <el-button @click="ProjectVisible = false">Cancel</el-button>
+    <el-button type="primary" @click="ProjectVisible = false">OK</el-button>
+  </span>
+        </el-dialog>
+      </div>
+
+
+        <div class="ProjectCard">
             <el-row :gutter="200">
                 <el-col :span="4" v-for="project in allprojects" :key="project.id" style="margin-right: 50px">
                     <el-card class="box-card" >
@@ -19,7 +50,7 @@
 
                     <div class="PartiCipants" >
                         <el-link href="Profile" v-for="member in project.members" :key="member.id">
-                            <el-avatar :src="member.avatar" style="vertical-align: middle" href=Profile></el-avatar>
+                            <el-avatar :src="member.avatar" size="small" style="vertical-align: middle;margin-right: 3px" href=Profile></el-avatar>
                         </el-link>
                     </div>
                     </el-card>
@@ -34,9 +65,16 @@ export default {
     name: "Project",
     data(){
         return {
-            allprojects:[]
-        }
+          form: {
+            Projectname:'',
+            ProjectDesc:''
+          },
+          allprojects:[],
+          ProjectVisible: false,
+          ProjectRightvalue: 0
+        };
     },
+
     created(){
         this.getAllProject()
     },
@@ -50,7 +88,14 @@ export default {
             console.log(err)
           })
         })
-      }
+      },
+        handleClose(done) {
+          this.$confirm('Sure to Close？')
+            .then(_ => {
+              done();
+            })
+            .catch(_ => {});
+        }
     }
 }
 </script>
@@ -58,6 +103,10 @@ export default {
 <style scoped>
 
     .PartiCipants{margin-top: 5px;float: left;display: flex; justify-content:flex-start}
+    .el-input{margin-bottom: 15px}
+    .el-dialog{font-size: larger}
+    .el-button{margin-bottom: 15px}
+
     .text {
         font-size: 14px;
     }
@@ -78,3 +127,4 @@ export default {
         height: 200px;
     }
 </style>
+
