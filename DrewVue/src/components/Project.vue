@@ -6,8 +6,8 @@
         <el-divider></el-divider>
         <div>
             <el-row :gutter="200">
-                <el-col :span="4" v-for="project in allprojects" :key="project.id">
-                    <el-card class="box-card">
+                <el-col :span="4" v-for="project in allprojects" :key="project.id" style="margin-right: 50px">
+                    <el-card class="box-card" >
                     <div slot="header" class="clearfix">
                         <div style="text-align: left ">
                             <router-link :to="'/'+project.id+'/task'" style="padding: 0px 0;margin-bottom: -5px">
