@@ -14,18 +14,18 @@
       </div>
     </el-header>
     <el-main>
-      <h1>TEAM TASK REPORT </h1>
+      <h1> Project/Task REPORT </h1>
       <el-table
         :data="tableData"
         style="width: 100%">
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-table
-              :data="tableDataStep"
+              :data="tableDataTask"
               style="width: 100%">
               <el-table-column
-                prop="step"
-                label="step"
+                prop="task"
+                label="Task"
                 width="180">
               </el-table-column>
               <el-table-column
@@ -34,23 +34,23 @@
                 width="180">
               </el-table-column>
               <el-table-column
-                prop="workhour"
-                label="WorkHour">
+                prop="totalhour"
+                label="TaskTotalWorkHour">
               </el-table-column>
             </el-table>
           </template>
         </el-table-column>
         <el-table-column
-          label="Task"
-          prop="taskid">
+          label="Project"
+          prop="projectid">
         </el-table-column>
         <el-table-column
           label="Description"
           prop="description">
         </el-table-column>
         <el-table-column
-          label="TotalTaskTime"
-          prop="totaltasktime">
+          label="TotalProjectTime"
+          prop="totalprojecttime">
         </el-table-column>
       </el-table>
       <el-button style="margin-top:20px;text-align: right">
@@ -65,36 +65,35 @@
         name: "ReportDetail",
       data() {
         return {
-          tableDataStep:[{
-            step:'step1',
-            duration:'2020/05/01-2020/05/01',
-            workhour:'3'},
-            {step: 'step2',
-              duration: '2020/05/02-2020/05/02',
-              workhour: '4',
-            },
-            {step: 'step3',
-              duration: '2020/05/03-2020/05/03',
-              workhour: '3',
-          }],
-          tableData: [{
-            taskid: 'Task1',
-            description: 'Task1Description',
-            totaltasktime: '10',
+          tableDataTask:[{
+            task:'Task1',
+            duration:'取Task1中符合前面日期篩選條件的step最早時間和最近時間',
+            totalhour:'符合篩選條件下的step總工時'},
+            {
+              task:'Task2',
+              duration:'取Task2中符合前面日期篩選條件的step最早時間和最近時間',
+              totalhour:'符合篩選條件下的step總工時'},
+            {
+              task:'Task3',
+              duration:'取Task3中符合前面日期篩選條件的step最早時間和最近時間',
+              totalhour:'符合篩選條件下的step總工時'},
 
-          }, {
-            taskid: 'Task2',
-            description: 'Task2Description',
-            totaltasktime: '10',
-          }, {
-            taskid: 'Task3',
-            description: 'Task3Description',
-            totaltasktime: '10',
-          }, {
-            taskid: 'Task4',
-            description: 'Task4Description',
-            totaltasktime: '10',
-          }]
+          ],
+          tableData: [{
+            projectid: 'Project1',
+            description: 'ProjectDescription',
+            totalprojecttime: '子項目Task 工時加總',
+          },
+            {
+              projectid: 'Project2',
+              description: 'ProjectDescription',
+              totalprojecttime: '子項目Task 工時加總',
+            },
+            {
+              projectid: 'Project3',
+              description: 'ProjectDescription',
+              totalprojecttime: '子項目Task 工時加總',
+            },]
         }
       }
     }
