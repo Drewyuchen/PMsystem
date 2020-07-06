@@ -7,6 +7,17 @@ export function getAllProject(){
     })
 }
 
+export function createProject(data){
+    return request({
+        url:'http://localhost:8065/project/projects/createProject',
+        method:'post',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
 export function getProjectById(data){
     return request({
         url:'http://localhost:8065/project/projects/getProjectById',

@@ -9,7 +9,7 @@
         <el-button plain circle icon="custom-icon el-icon-message-solid" style="margin-right:-10px"></el-button>
         <el-button plain circle icon="custom-icon el-icon-message" style="margin-right:-10px"></el-button>
         <el-button plain circle icon="custom-icon el-icon-user-solid"></el-button>
-        <el-link href="Report"><el-button plain circle icon="custom-icon el-icon-s-data"></el-button></el-link>
+        <router-link to="/report"><el-button plain circle icon="custom-icon el-icon-s-data"></el-button></router-link>
 
       </div>
     </el-header>

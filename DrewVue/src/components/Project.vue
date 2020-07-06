@@ -13,7 +13,7 @@
           :before-close="handleClose">
           <el-form ref="form" :model="form" label-width="150px">
             <el-form-item label="Project Name">
-              <el-input v-model="form.Projectname"placeholder="Please Enter A Project Name"></el-input>
+              <el-input v-model="form.Projectname" placeholder="Please Enter A Project Name"></el-input>
             </el-form-item>
             <el-form-item label="Project Description">
               <el-input v-model="form.ProjectDesc" placeholder="Please Enter A Project Description"></el-input>
@@ -22,15 +22,15 @@
             <div class="block">
               <el-slider
                 v-model="ProjectRightvalue"
-                show-input input-size="large" style="margin-left: 5px">
+                show-input input-size="large" :format-tooltip="formatTooltip" style="margin-left: 5px">
               </el-slider>
             </div>
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
-    <el-button @click="ProjectVisible = false">Cancel</el-button>
-    <el-button type="primary" @click="ProjectVisible = false">OK</el-button>
-  </span>
+            <el-button @click="ProjectVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="createProject();ProjectVisible = false;getAllProject()">OK</el-button>
+          </span>
         </el-dialog>
       </div>
 
@@ -60,7 +60,7 @@
     </div>
 </template>
 <script>
-import {getAllProject} from '@/api/project'
+import {getAllProject,createProject} from '@/api/project'
 export default {
     name: "Project",
     data(){
@@ -89,7 +89,30 @@ export default {
           })
         })
       },
-        handleClose(done) {
+      createProject(){
+        return new Promise((resolve,reject)=>{
+          createProject({
+            description: this.form.ProjectDesc,
+            gmtCreate: "2020-07-06 00:51:15",
+            gmtModified: "2020-07-06 00:51:15",
+            is_public: 1,
+            mright:this.ProjectRightvalue/100,
+            name: this.form.Projectname,
+            officeId: 0,
+            ownerId: 0,
+            teamId: 0
+          }).then((res)=>{
+            this.allprojects=res.data.list
+            resolve()
+          }).catch((err)=>{
+            console.log(err)
+          })
+        })
+      },
+      formatTooltip(val) {
+        return val / 100;
+      },
+      handleClose(done) {
           this.$confirm('Sure to Close？')
             .then(_ => {
               done();
