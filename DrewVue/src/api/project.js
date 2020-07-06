@@ -128,3 +128,21 @@ export function insertToStepTime(data){
         data
     })
 }
+
+export function getUserMarkList(){
+    return request({
+        url:'http://localhost:8065/project/projects/getUserMarkList',
+        method:'get',
+    })
+}
+
+export function getUserProject(data){
+    return request({
+        url:'http://localhost:8065/project/projects/getUserProject',
+        method:'post',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}

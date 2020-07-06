@@ -31,38 +31,24 @@
         border
         style="width: 100%">
         <el-table-column
-          prop="name"
-          label="Member/Project"
+          prop="uname"
+          label="Member"
           width="180">
         </el-table-column>
         <el-table-column
-          prop="project1"
-          label="Project1(Project 1 權重)">
+          prop="totalScore"
+          label="Score">
         </el-table-column>
         <el-table-column
-          prop="project2"
-          label="Project2(Project 2 權重)">
-        </el-table-column>
-        <el-table-column
-          prop="project3"
-          label="Project3 (Project 3 權重)">
-        </el-table-column>
-        <el-table-column
-          prop="project4"
-          label="Project4(Project 4 權重)">
-        </el-table-column>
-        <el-table-column
-          prop="member_saturation"
-          label="Member Saturation">
+          prop="totalWorkHour"
+          label="WorkHour">
         </el-table-column>
         <el-table-column
           fixed="right"
           label="操作"
           width="180">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">
-              <el-link href="ReportDetail">DETAIL</el-link>
-            </el-button>
+            <el-button @click="handleClick(scope.row)" type="text" size="small"><el-link>Detail</el-link></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -76,64 +62,34 @@
 </template>
 
 <script>
+    import {getUserMarkList} from '@/api/project'
     export default {
-      methods: {
-        handleClick(row) {
-          console.log(row);
-        }
-      },
       data() {
         return {
           value1:'',
-          tableData: [{
-            name: 'Member1',
-            project1:'project1權重*project1總工時',
-            project2:'project2權重*project2總工時',
-            project3:'project3權重*project3總工時',
-            project4:'project4權重*project4總工時',
-            member_saturation:'左方menber1 四個欄位加總'
-          }, {
-            name: 'Member2',
-            project1:'project1權重*project1總工時',
-            project2:'project2權重*project2總工時',
-            project3:'project3權重*project3總工時',
-            project4:'project4權重*project4總工時',
-            member_saturation:'左方menber2 四個欄位加總'
-          }, {
-            name: 'Member3',
-            project1:'project1權重*project1總工時',
-            project2:'project2權重*project2總工時',
-            project3:'project3權重*project3總工時',
-            project4:'project4權重*project4總工時',
-            member_saturation:'左方menber3 四個欄位加總'
-          }, {
-            name: 'Member4',
-            project1:'project1權重*project1總工時',
-            project2:'project2權重*project2總工時',
-            project3:'project3權重*project3總工時',
-            project4:'project4權重*project4總工時',
-            member_saturation:'左方menber4 四個欄位加總'
-          },
-            {
-              name: 'Member5',
-              project1:'project1權重*project1總工時',
-              project2:'project2權重*project2總工時',
-              project3:'project3權重*project3總工時',
-              project4:'project4權重*project4總工時',
-              member_saturation:'左方menber5 四個欄位加總'
-            },
-            {
-              name: 'Total',
-              project1:'project1權重*menber1-5project1總工時',
-              project2:'project2權重*menber1-5project2總工時',
-              project3:'project3權重*menber1-5project3總工時',
-              project4:'project4權重*menber1-5project4總工時',
-              member_saturation:'左方四個欄位加總'
-            }
-          ],
+          tableData: [],
 
         }
-      }
+      },
+      created(){
+        this.getUserMarkList()
+      },
+      methods: {
+        handleClick(row) {
+          console.log(row)
+          this.$router.push({name:'reportdetail',query:{'userid':row.uid}})
+        },
+        getUserMarkList(){
+          return new Promise((resolve,reject)=>{
+            getUserMarkList().then(res =>{
+                this.tableData=res.data.list
+                resolve()
+            }).catch((err)=>{
+                console.log(err)
+            })
+          })
+        }
+      },
     }
 </script>
 

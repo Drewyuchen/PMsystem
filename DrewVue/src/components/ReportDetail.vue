@@ -20,41 +20,33 @@
         style="width: 100%">
         <el-table-column type="expand">
           <template slot-scope="props">
-            <el-table
-              :data="tableDataTask"
-              style="width: 100%">
+            <el-table :data="props.row.children" >
               <el-table-column
-                prop="task"
+                prop="taskName"
                 label="Task"
                 width="180">
               </el-table-column>
               <el-table-column
-                prop="duration"
-                label="Duration"
+                prop="totalHour"
+                label="TaskTotalWorkHour"
                 width="180">
-              </el-table-column>
-              <el-table-column
-                prop="totalhour"
-                label="TaskTotalWorkHour">
               </el-table-column>
             </el-table>
           </template>
         </el-table-column>
         <el-table-column
-          label="Project"
-          prop="projectid">
+          prop="projectName"
+          label="项目名称"
+          width="180">
         </el-table-column>
         <el-table-column
-          label="ProjectRatio"
-          prop="projectidratio">
+          prop="projectDescription"
+          label="项目描述"
+          width="180">
         </el-table-column>
         <el-table-column
-          label="Description"
-          prop="description">
-        </el-table-column>
-        <el-table-column
-          label="TotalProjectTime"
-          prop="totalprojecttime">
+          prop="mright"
+          label="项目权重">
         </el-table-column>
       </el-table>
       <el-button style="margin-top:20px;text-align: right">
@@ -65,49 +57,30 @@
 </template>
 
 <script>
-    export default {
-        name: "ReportDetail",
-      data() {
-        return {
-
-          tableData: [{
-            projectid: 'Project1',
-            description: 'ProjectDescription',
-            totalprojecttime: '子項目Task 工時加總',
-            task:'Task1',
-            duration:'取Task1中符合前面日期篩選條件的step最早時間和最近時間',
-            totalhour:'符合Task1的step總工時',
-            task:'Task2',
-            duration:'取Task2中符合前面日期篩選條件的step最早時間和最近時間',
-            totalhour:'符合Task2的step總工時',
-            task:'Task3',
-            duration:'取Task3中符合前面日期篩選條件的step最早時間和最近時間',
-            totalhour:'符合篩選條件下的step總工時',
-
-          },
-            {
-              projectid: 'Project2',
-              description: 'ProjectDescription',
-              totalprojecttime: '子項目Task 工時加總',
-              task:'Task1',
-              duration:'取Task1中符合前面日期篩選條件的step最早時間和最近時間',
-              totalhour:'符合Task1的step總工時',
-              task:'Task4',
-              duration:'取Task2中符合前面日期篩選條件的step最早時間和最近時間',
-              totalhour:'符合Task2的step總工時',
-            },
-            {
-              projectid: 'Project3',
-              description: 'ProjectDescription',
-              totalprojecttime: '子項目Task 工時加總',
-              task:'Task1',
-              duration:'取Task1中符合前面日期篩選條件的step最早時間和最近時間',
-              totalhour:'符合Task1的step總工時',
-
-            },]
-        }
+  import {getUserProject} from '@/api/project'
+  export default {
+    name: "ReportDetail",
+    data() {
+      return {
+        tableData: []
+      }
+    },
+    created(){
+      this.getUserProject()
+    },
+    methods:{
+      getUserProject(){
+        return new Promise((resolve,reject)=>{
+          getUserProject(this.$route.query.userid).then(res =>{
+              this.tableData=res.data.list
+              resolve()
+          }).catch((err)=>{
+              console.log(err)
+          })
+        })
       }
     }
+  }
 </script>
 
 <style scoped>

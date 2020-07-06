@@ -10,7 +10,6 @@ import Login from '@/components/member/Login'
 import Register from '@/components/member/Register'
 import Report from '@/components/report'
 import ReportDetail from "../components/ReportDetail"
-import report2 from '@/components/report2'
 import test from '@/components/test';
 
 
@@ -56,11 +55,6 @@ export default new Router({
       path: '/report',
       name: 'report',
       component:Report
-    },
-    {
-      path: '/report2',
-      name: 'report2',
-      component:report2
     },
     {
       path: '/test',
