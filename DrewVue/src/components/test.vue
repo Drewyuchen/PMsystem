@@ -45,10 +45,6 @@
           prop="projectid">
         </el-table-column>
         <el-table-column
-          label="ProjectRatio"
-          prop="projectidratio">
-        </el-table-column>
-        <el-table-column
           label="Description"
           prop="description">
         </el-table-column>
@@ -65,49 +61,46 @@
 </template>
 
 <script>
-    export default {
-        name: "ReportDetail",
-      data() {
-        return {
-
-          tableData: [{
-            projectid: 'Project1',
-            description: 'ProjectDescription',
-            totalprojecttime: '子項目Task 工時加總',
-            task:'Task1',
-            duration:'取Task1中符合前面日期篩選條件的step最早時間和最近時間',
-            totalhour:'符合Task1的step總工時',
+  export default {
+    name: "ReportDetail",
+    data() {
+      return {
+        tableDataTask:[
+          {
+          task:'Task1',
+          duration:'取Task1中符合前面日期篩選條件的step最早時間和最近時間',
+          totalhour:'符合篩選條件下的step總工時'},
+          {
             task:'Task2',
             duration:'取Task2中符合前面日期篩選條件的step最早時間和最近時間',
-            totalhour:'符合Task2的step總工時',
+            totalhour:'符合篩選條件下的step總工時'},
+          {
             task:'Task3',
             duration:'取Task3中符合前面日期篩選條件的step最早時間和最近時間',
-            totalhour:'符合篩選條件下的step總工時',
+            totalhour:'符合篩選條件下的step總工時'},
 
+        ],
+        tableData: [{
+          projectid: 'Project1',
+          description: 'ProjectDescription',
+          totalprojecttime: '子項目Task 工時加總',
+          taskid:'Task1',
+          duration:'取Task1中符合前面日期篩選條件的step最早時間和最近時間',
+          totalhour:'符合篩選條件下的step總工時'
+        },
+          {
+            projectid: 'Project2',
+            description: 'ProjectDescription',
+            totalprojecttime: '子項目Task 工時加總',
           },
-            {
-              projectid: 'Project2',
-              description: 'ProjectDescription',
-              totalprojecttime: '子項目Task 工時加總',
-              task:'Task1',
-              duration:'取Task1中符合前面日期篩選條件的step最早時間和最近時間',
-              totalhour:'符合Task1的step總工時',
-              task:'Task4',
-              duration:'取Task2中符合前面日期篩選條件的step最早時間和最近時間',
-              totalhour:'符合Task2的step總工時',
-            },
-            {
-              projectid: 'Project3',
-              description: 'ProjectDescription',
-              totalprojecttime: '子項目Task 工時加總',
-              task:'Task1',
-              duration:'取Task1中符合前面日期篩選條件的step最早時間和最近時間',
-              totalhour:'符合Task1的step總工時',
-
-            },]
-        }
+          {
+            projectid: 'Project3',
+            description: 'ProjectDescription',
+            totalprojecttime: '子項目Task 工時加總',
+          },]
       }
     }
+  }
 </script>
 
 <style scoped>
