@@ -2,7 +2,7 @@
   <el-container>
     <el-main>
       <div class="HeaderTabs" style="width: 100%">
-        <div class="TasksHeader">
+        <div class="TasksHeader" style="display: block" >
           <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 20px;padding: 10px 10px 10px 0px">
             <el-breadcrumb-item :to="{ path: '/project' }">Project</el-breadcrumb-item>
             <el-breadcrumb-item>Tasks</el-breadcrumb-item>
@@ -28,7 +28,7 @@
               <i class="el-icon-circle-plus" style="font-size: 45px"></i>
             </el-button>
             <el-link href="Profile" v-for="member in usersInProject" :key="member.id">
-              <el-avatar :src="member.avatar" icon="el-icon-user-solid"></el-avatar>
+              <el-avatar :src="member.avatar" icon="el-icon-user-solid" style="margin-right: 3px"></el-avatar>
             </el-link>
           </div>
         </div>
@@ -92,7 +92,7 @@
 
 
 
-        <div v-for="(value,key) in allTasks" :key="key" :class="key">
+        <div v-for="(value,key) in allTasks" :key="key" :class="key" >
           <h6>
             {{key}}>>
           </h6>
@@ -103,18 +103,12 @@
                   <div style="text-align: left ">
                     <el-button type="text" @click="taskDialogVisible=true;currentTaskId=task.id;getStepsByTask(task.id)" class="color">{{task.name}}</el-button>
                   </div>
-                  <div class="text item" style="text-align: left;font-size: large ">{{task.notes}}</div>
-                  <div class="PartiCipants" style="margin-top: -10px">
+                  <div class="text item" style="text-align: left;font-size: small ">{{task.notes}}</div>
+                </div>
+                  <div class="PartiCipants" style="margin-top: -15px;vertical-align: center;display:block">
                     <el-link href="Profile">
                       <el-avatar icon="el-icon-user-solid" size="small" style="vertical-align: middle" href=Profile></el-avatar>
                     </el-link>
-                    <el-link href="Profile">
-                      <el-avatar icon="el-icon-user-solid" size="small" style="vertical-align: middle" href=Profile></el-avatar>
-                    </el-link>
-                    <el-link href="Profile">
-                      <el-avatar icon="el-icon-user-solid" size="small" style="vertical-align: middle" href=Profile></el-avatar>
-                    </el-link>
-                  </div>
                 </div>
               </el-card>
             </el-col>
@@ -567,8 +561,8 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
     clear: both
   }
   .box-card {
-    width: 95%;
-    height: 130px;
+    width: 100%;
+    height: 100%;
     margin-bottom:20px
   }
   .el-dropdown-link {
