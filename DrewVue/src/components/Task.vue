@@ -349,6 +349,7 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
       this.getProjectById()
       this.getTaskList()
       this.getUsersByProject()
+      this.getUsersNotInProject()
     },
     methods:{
       getUsersNotInProject(){
