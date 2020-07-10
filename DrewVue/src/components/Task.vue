@@ -411,7 +411,7 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
       },
       getTaskList(){
         return new Promise((resolve,reject)=>{
-          getTaskList().then((res)=>{
+          getTaskList(this.$route.params.projectid).then((res)=>{
             this.allTasks=res.data.map
             resolve()
           }).catch((err)=>{
@@ -433,7 +433,7 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
                   gmtModified: "2020-06-14 02:03:09",
                   name: this.taskForm.title,
                   notes: this.taskForm.description,
-                  parentId: 0,
+                  parentId: this.$route.params.projectid,
                   relatedTo: "string",
                   statusId: 0,
                   taskableId: 0,

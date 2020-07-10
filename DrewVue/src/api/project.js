@@ -29,10 +29,14 @@ export function getProjectById(data){
     })
 }
 
-export function getTaskList(){
+export function getTaskList(data){
     return request({
         url:'http://localhost:8065/project/tasks/getAllTasks',
-        method:'get',
+        method:'post',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        data
     })
 }
 
