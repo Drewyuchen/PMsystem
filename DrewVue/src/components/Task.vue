@@ -68,10 +68,10 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                  <el-form-item prop="currentTask" label="Relate To">
+                  <el-form-item prop="RelatetoMember" label="Relate To">
 
-                    <el-select placeholder="Select a task" v-model="taskForm.currentTask" @change="getTaskId" style="width:80%">
-                      <el-option v-for="task in allTasks.todo" :key="task.id" :label="task.name" :value="task.id"></el-option>
+                    <el-select placeholder="Select a Relate member" v-model="taskForm.RelatetoMember" @change="getRelatetoMemberId" style="width:80%">
+                      <el-option v-for="user in allusers" :key="user.id" :label="user.name" :value="user.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -301,14 +301,14 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
         taskForm:{
           title:'',
           currentMember:'',
-          currentTask:'',
+          RelatetoMember:'',
           duedate:'',
           description:''
         },
         taskFormRules:{
           title:[{required: true, message: 'Please input a task title', trigger: 'blur' }],
           currentMember:[{required: true, message: 'Please select a member', trigger: 'change' }],
-          currentTask:[{required: true, message: 'Please select a task', trigger: 'change' }],
+          RelatetoMember:[{required: true, message: 'Please select a relate member', trigger: 'change' }],
           duedate:[{required: true, message: 'Please select a date', trigger: 'change' }],
           description:[{required: true, message: 'Please input a task description', trigger: 'blur' }],
         },
@@ -380,8 +380,8 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
       getMemberId(val){
         this.taskForm.currentMember=val
       },
-      getTaskId(val){
-        this.taskForm.currentTask=val
+      getRelatetoMemberId(val){
+        this.taskForm.RelatetoMember=val
       },
       addUsertoProject(){
         return new Promise((resolve,reject)=>{
