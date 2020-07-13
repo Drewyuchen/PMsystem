@@ -2,7 +2,7 @@
   <el-container>
     <el-main>
       <div class="HeaderTabs" style="width: 100%">
-        <div class="TasksHeader" style="display: block" >
+        <div class="TasksHeader">
           <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 20px;padding: 10px 10px 10px 0px">
             <el-breadcrumb-item :to="{ path: '/project' }">Project</el-breadcrumb-item>
             <el-breadcrumb-item>Tasks</el-breadcrumb-item>
@@ -28,11 +28,10 @@
               <i class="el-icon-circle-plus" style="font-size: 45px"></i>
             </el-button>
             <el-link href="Profile" v-for="member in usersInProject" :key="member.id">
-              <el-avatar :src="member.avatar" icon="el-icon-user-solid" style="margin-right: 3px"></el-avatar>
+              <el-avatar :src="member.avatar" icon="el-icon-user-solid"></el-avatar>
             </el-link>
           </div>
         </div>
-
 
         <div class="CreateTask">
             <el-button type="primary" @click="createTaskDialogVisible=true">CreateTask</el-button>
@@ -68,10 +67,10 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                  <el-form-item prop="currentTask" label="Relate To">
+                  <el-form-item prop="RelatetoMember" label="Relate To">
 
-                    <el-select placeholder="Select a task" v-model="taskForm.currentTask" @change="getTaskId" style="width:80%">
-                      <el-option v-for="task in allTasks.todo" :key="task.id" :label="task.name" :value="task.id"></el-option>
+                    <el-select placeholder="Select a Relate member" v-model="taskForm.RelatetoMember" @change="getRelatetoMemberId" style="width:80%">
+                      <el-option v-for="user in allusers" :key="user.id" :label="user.name" :value="user.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -92,29 +91,32 @@
 
 
 
-        <div v-for="(value,key) in allTasks" :key="key" :class="key" >
+        <div v-for="(value,key) in allTasks" :key="key" :class="key">
           <h6>
             {{key}}>>
           </h6>
           <el-row :gutter="10">
-            <el-col :span="4" v-for="task in value" :key="task.id">
+            <el-col :span="4" v-for="task in value" :key="task.id" style="margin-right: 10px">
               <el-card class="box-card">
-                <div slot="header" class="clearfix">
+                <div slot="header" class="clearfix" style="margin-bottom: -10px">
                   <div style="text-align: left ">
-                    <el-button type="text" @click="taskDialogVisible=true;currentTaskId=task.id;getStepsByTask(task.id)" class="color">{{task.name}}</el-button>
-                  </div>
-                  <div class="text item" style="text-align: left;font-size: small ">{{task.notes}}</div>
+                    <el-button type="text" @click="taskDialogVisible=true;currentTaskId=task.id;getStepsByTask(task.id)"
+                               class="color">{{task.name}}</el-button></div>
+                  <div class="text item" style="text-align: left;font-size:smaller">{{task.notes}}</div>
                 </div>
-                  <div class="PartiCipants" style="margin-top: -15px;vertical-align: center;display:block">
+                <div class="PartiCipants" style="margin-top:-15px">
                     <el-link href="Profile">
                       <el-avatar icon="el-icon-user-solid" size="small" style="vertical-align: middle" href=Profile></el-avatar>
                     </el-link>
-                </div>
+                    <el-link href="Profile">
+                      <el-avatar icon="el-icon-user-solid" size="small" style="vertical-align: middle" href=Profile></el-avatar>
+                    </el-link>
+                  </div>
               </el-card>
             </el-col>
           </el-row>
         </div>
-          <!--InProgress專案細節對話框-->
+          <!--專案細節對話框-->
         <el-dialog
           :visible.sync="taskDialogVisible"
           width="60%"
@@ -295,14 +297,14 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
         taskForm:{
           title:'',
           currentMember:'',
-          currentTask:'',
+          RelatetoMember:'',
           duedate:'',
           description:''
         },
         taskFormRules:{
           title:[{required: true, message: 'Please input a task title', trigger: 'blur' }],
           currentMember:[{required: true, message: 'Please select a member', trigger: 'change' }],
-          currentTask:[{required: true, message: 'Please select a task', trigger: 'change' }],
+          RelatetoMember:[{required: true, message: 'Please select a relate member', trigger: 'change' }],
           duedate:[{required: true, message: 'Please select a date', trigger: 'change' }],
           description:[{required: true, message: 'Please input a task description', trigger: 'blur' }],
         },
@@ -374,8 +376,8 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
       getMemberId(val){
         this.taskForm.currentMember=val
       },
-      getTaskId(val){
-        this.taskForm.currentTask=val
+      getRelatetoMemberId(val){
+        this.taskForm.RelatetoMember=val
       },
       addUsertoProject(){
         return new Promise((resolve,reject)=>{
@@ -562,9 +564,10 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
     clear: both
   }
   .box-card {
-    width: 100%;
-    height: 100%;
-    margin-bottom:20px
+    width: 200px;
+    height: 170px;
+    margin-bottom:20px;
+    margin-right: 20px;
   }
   .el-dropdown-link {
     cursor: pointer;
