@@ -4,8 +4,8 @@
             <h2 style="margin-top:20px"> All Projects List </h2>
         </div>
         <el-divider></el-divider>
-        <div class="ProjectCard" style="display: block; text-align: center">
-            <el-row :gutter="200">
+        <div class="ProjectCard" style="display: block">
+            <el-row :gutter="200" style="text-align: center">
                 <el-col :span="4" v-for="project in allprojects" :key="project.id"
                         style="margin-right: 200px; margin-top: 30px">
                     <el-card class="box-card" >
@@ -31,7 +31,9 @@
 
 
       <div class="CreateProject" style="margin-top: 20px">
-        <el-button type="primary" @click="ProjectVisible = true">CreateProject</el-button>
+        <el-link type="primary" @click="ProjectVisible = true">
+          <i class="el-icon-circle-plus" style="margin-top: 30px;font-size: 80px"></i>
+        </el-link>
         <el-dialog
           title="About Project Information"
           :visible.sync="ProjectVisible"
@@ -149,7 +151,7 @@ export default {
 
     .box-card {
         width: 400px;
-        height: 250px;
+        height: 150%;
     }
 </style>
 

@@ -28,13 +28,16 @@
               <i class="el-icon-circle-plus" style="font-size: 45px"></i>
             </el-button>
             <el-link href="Profile" v-for="member in usersInProject" :key="member.id">
-              <el-avatar :src="member.avatar" icon="el-icon-user-solid"></el-avatar>
+              <el-avatar :src="member.avatar" icon="el-icon-user-solid" style="margin-right: 2px"></el-avatar>
             </el-link>
           </div>
         </div>
 
         <div class="CreateTask">
-            <el-button type="primary" @click="createTaskDialogVisible=true">CreateTask</el-button>
+            <el-button type="primary" @click="createTaskDialogVisible=true"
+                       style="vertical-align: middle;font-size: 20px">
+              <i class="el-icon-circle-plus" style="margin-top: -5px;;vertical-align: middle;font-size: 25px"></i>
+              CREATE A TASK</el-button>
         </div>
         <!--createTasks專案細節對話框-->
         <el-dialog
@@ -91,6 +94,7 @@
 
 
 
+        <div class="TaskCard" style="display: block">
         <div v-for="(value,key) in allTasks" :key="key" :class="key">
           <h6>
             {{key}}>>
@@ -98,23 +102,24 @@
           <el-row :gutter="10">
             <el-col :span="4" v-for="task in value" :key="task.id" style="margin-right: 10px">
               <el-card class="box-card">
-                <div slot="header" class="clearfix" style="margin-bottom: -10px">
+                <div slot="header" class="clearfix" style="margin-bottom: -20px">
                   <div style="text-align: left ">
                     <el-button type="text" @click="taskDialogVisible=true;currentTaskId=task.id;getStepsByTask(task.id)"
                                class="color">{{task.name}}</el-button></div>
                   <div class="text item" style="text-align: left;font-size:smaller">{{task.notes}}</div>
                 </div>
-                <div class="PartiCipants" style="margin-top:-15px">
-                    <el-link href="Profile">
-                      <el-avatar icon="el-icon-user-solid" size="small" style="vertical-align: middle" href=Profile></el-avatar>
-                    </el-link>
-                    <el-link href="Profile">
+                <div class="PartiCipants" style="margin-top:-20px">
+                  <el-button type="text" @click="UsersdialogVisible=true;getUsersNotInProject()">
+                    <i class="el-icon-circle-plus" style="font-size: 32px"></i>
+                  </el-button>
+                    <el-link href="Profile" style="margin-top: -16px">
                       <el-avatar icon="el-icon-user-solid" size="small" style="vertical-align: middle" href=Profile></el-avatar>
                     </el-link>
                   </div>
               </el-card>
             </el-col>
           </el-row>
+        </div>
         </div>
           <!--專案細節對話框-->
         <el-dialog
@@ -565,7 +570,7 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
   }
   .box-card {
     width: 200px;
-    height: 170px;
+    height: 100%;
     margin-bottom:20px;
     margin-right: 20px;
   }
