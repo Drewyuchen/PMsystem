@@ -4,8 +4,33 @@
             <h2 style="margin-top:20px"> All Projects List </h2>
         </div>
         <el-divider></el-divider>
-      <div class="CreateProject">
-        <el-button type="primary" @click="ProjectVisible = true">CreateProject</el-button>
+        <div class="ProjectCard" style="display: block">
+            <el-row :gutter="200">
+                <el-col :span="4" v-for="project in allprojects" :key="project.id" style="margin-right: 150px;
+                margin-top: 30px">
+                    <el-card class="box-card" >
+                    <div slot="header" class="clearfix">
+                        <div style="text-align: left ">
+                            <router-link :to="'/'+project.id+'/task'" style="padding: 0px 0;margin-bottom: -5px">
+                                <el-button  type="text" style="font-size: large"> {{project.name}} </el-button>
+                            </router-link>
+                        </div>
+                        <div class="text item" style="text-align: left;font-size: large ">{{project.description}}</div>
+                    </div>
+
+                    <div class="PartiCipants"  style="display: block; margin-bottom: 15px">
+                        <el-link href="Profile" v-for="member in project.members" :key="member.id">
+                            <el-avatar :src="member.avatar" size="medium" style="vertical-align: middle;margin-right: 3px" href=Profile></el-avatar>
+                        </el-link>
+                    </div>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </div>
+
+      <div class="CreateProject" >
+        <el-link type="primary" icon="el-icon-circle-plus-outline" @click="ProjectVisible = true"
+                 style="font-size: 70px"></el-link>
         <el-dialog
           title="About Project Information"
           :visible.sync="ProjectVisible"
@@ -19,12 +44,12 @@
               <el-input v-model="form.ProjectDesc" placeholder="Please Enter A Project Description"></el-input>
             </el-form-item>
             <el-form-item label="Project Right">
-            <div class="block">
-              <el-slider
-                v-model="ProjectRightvalue"
-                show-input input-size="large" :format-tooltip="formatTooltip" style="margin-left: 5px">
-              </el-slider>
-            </div>
+              <div class="block">
+                <el-slider
+                  v-model="ProjectRightvalue"
+                  show-input input-size="large" :format-tooltip="formatTooltip" style="margin-left: 5px">
+                </el-slider>
+              </div>
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
@@ -33,30 +58,6 @@
           </span>
         </el-dialog>
       </div>
-
-
-        <div class="ProjectCard">
-            <el-row :gutter="200">
-                <el-col :span="4" v-for="project in allprojects" :key="project.id" style="margin-right: 50px">
-                    <el-card class="box-card" >
-                    <div slot="header" class="clearfix">
-                        <div style="text-align: left ">
-                            <router-link :to="'/'+project.id+'/task'" style="padding: 0px 0;margin-bottom: -5px">
-                                <el-button  type="text" style="font-size: large"> {{project.name}} </el-button>
-                            </router-link>
-                        </div>
-                        <div class="text item" style="text-align: left;font-size: large ">{{project.description}}</div>
-                    </div>
-
-                    <div class="PartiCipants" >
-                        <el-link href="Profile" v-for="member in project.members" :key="member.id">
-                            <el-avatar :src="member.avatar" size="small" style="vertical-align: middle;margin-right: 3px" href=Profile></el-avatar>
-                        </el-link>
-                    </div>
-                    </el-card>
-                </el-col>
-            </el-row>
-        </div>
     </div>
 </template>
 <script>
@@ -146,8 +147,8 @@ export default {
     }
 
     .box-card {
-        width: 300px;
-        height: 200px;
+        width: 400px;
+        height: 100%;
     }
 </style>
 
