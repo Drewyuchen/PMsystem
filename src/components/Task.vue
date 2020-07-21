@@ -24,12 +24,14 @@
                 <el-button type="primary" @click.stop.prevent="addUsertoProject();UsersdialogVisible=false;currentSelectUserId=''">确 定</el-button>
               </div>
             </el-dialog>
+            <div class="add taskUser">
             <el-button type="text" @click="UsersdialogVisible=true;getUsersNotInProject()">
               <i class="el-icon-circle-plus" style="font-size: 45px"></i>
             </el-button>
-            <el-link href="Profile" v-for="member in usersInProject" :key="member.id">
+            <el-link href="Profile" v-for="member in usersInProject" :key="member.id" style="margin-top: -18px;margin-right: 7px">
               <el-avatar :src="member.avatar" icon="el-icon-user-solid"></el-avatar>
             </el-link>
+            </div>
           </div>
         </div>
 
@@ -98,29 +100,30 @@
           </h6>
           <el-row :gutter="10">
             <el-col :span="4" v-for="task in value" :key="task.id">
-              <el-card class="box-card">
+              <el-card class="box-card" style="display: block">
                 <div slot="header" class="clearfix">
                   <div style="text-align: left ">
-                    <el-button type="text" @click="taskDialogVisible=true;currentTaskId=task.id;getStepsByTask(task.id)" class="color">{{task.name}}</el-button>
+                    <el-button type="text" @click="taskDialogVisible=true;currentTaskId=task.id;getStepsByTask(task.id)" class="color"
+                    style="font-size: larger">{{task.name}}</el-button>
                   </div>
-                  <div class="text item" style="text-align: left;font-size: large ">{{task.notes}}</div>
-                  <div class="PartiCipants" style="margin-top: -10px">
-                    <el-link href="Profile">
-                      <el-avatar icon="el-icon-user-solid" size="small" style="vertical-align: middle" href=Profile></el-avatar>
-                    </el-link>
-                    <el-link href="Profile">
-                      <el-avatar icon="el-icon-user-solid" size="small" style="vertical-align: middle" href=Profile></el-avatar>
-                    </el-link>
-                    <el-link href="Profile">
-                      <el-avatar icon="el-icon-user-solid" size="small" style="vertical-align: middle" href=Profile></el-avatar>
-                    </el-link>
-                  </div>
+                  <div class="text item" style="text-align: left;font-size: smaller ">{{task.notes}}</div>
                 </div>
+                  <div class="PartiCipants" style="margin-top:-15px;display: block">
+                    <el-button type="text" @click="UsersdialogVisible=true;getUsersNotInProject()">
+                      <i class="el-icon-circle-plus" style="font-size: 32px"></i>
+                    </el-button>
+                    <el-link href="Profile">
+                      <el-avatar icon="el-icon-user-solid" size="small" style="vertical-align: middle;margin-top: -18px" href=Profile></el-avatar>
+                    </el-link>
+                    <el-link href="Profile">
+                      <el-avatar icon="el-icon-user-solid" size="small" style="vertical-align: middle;margin-top: -18px" href=Profile></el-avatar>
+                    </el-link>
+                  </div>
               </el-card>
             </el-col>
           </el-row>
         </div>
-          <!--InProgress專案細節對話框-->
+          <!--專案細節對話框-->
         <el-dialog
           :visible.sync="taskDialogVisible"
           width="60%"
@@ -568,8 +571,8 @@ import {getProjectById,getTaskList,createTask,getUsersByProject,addUsertoProject
     clear: both
   }
   .box-card {
-    width: 95%;
-    height: 130px;
+    width: 100%;
+    height: 100%;
     margin-bottom:20px
   }
   .el-dropdown-link {
