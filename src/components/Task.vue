@@ -104,7 +104,7 @@
                 <div slot="header" class="clearfix">
                   <div style="text-align: left ">
                     <el-button type="text" @click="taskDialogVisible=true;currentTaskId=task.id;getStepsByTask(task.id)" class="color"
-                    style="font-size: larger">{{task.name}}</el-button>
+                    style="font-size: smaller">{{task.name}}</el-button>
                   </div>
                   <div class="text item" style="text-align: left;font-size: smaller ">{{task.notes}}</div>
                 </div>
